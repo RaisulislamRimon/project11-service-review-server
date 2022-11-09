@@ -25,7 +25,7 @@ async function run() {
     await client.connect();
     const database = client.db("service-review");
     const servicesCollection = database.collection("services");
-    // const reviewsCollection = database.collection("reviews");
+    const reviewsCollection = database.collection("reviews");
     // const usersCollection = database.collection("users");
 
     // read all services
@@ -52,6 +52,22 @@ async function run() {
       console.log(service);
       // const service = services.find((service) => console.log(service.id));
       res.send(service);
+    });
+
+    // create review
+    app.post("/add-review", async (req, res) => {
+      console.log(req);
+      const review = req.body;
+      console.log(review);
+      const result = await reviewsCollection.insertOne(review);
+      res.json(result);
+    });
+
+    // read all reviews
+    app.get("/reviews", async (req, res) => {
+      const cursor = reviewsCollection.find({});
+      const reviews = await cursor.toArray();
+      res.send(reviews);
     });
 
     app.get("*", function (req, res) {
@@ -94,20 +110,6 @@ async function run() {
     //   const query = { _id: ObjectId(id) };
     //   const result = await servicesCollection.deleteOne(query);
     //   res.json(result);
-    // });
-
-    // // create review
-    // app.post("/reviews", async (req, res) => {
-    //   const review = req.body;
-    //   const result = await reviewsCollection.insertOne(review);
-    //   res.json(result);
-    // });
-
-    // // read all reviews
-    // app.get("/reviews", async (req, res) => {
-    //   const cursor = reviewsCollection.find({});
-    //   const reviews = await cursor.toArray();
-    //   res.send(reviews);
     // });
   } finally {
     // await client.close();
