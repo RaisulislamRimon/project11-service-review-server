@@ -11,8 +11,23 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+const services = require("./services.json");
+
 app.get("/", (req, res) => {
   res.send("service-review-server is running");
+});
+
+app.get("/services", (req, res) => {
+  res.send(services);
+});
+
+app.get("/services/:id", (req, res) => {
+  const id = req.params.id;
+  console.log(id);
+  const service = services.find((service) => service.id == id);
+  console.log(service);
+  // const service = services.find((service) => console.log(service.id));
+  res.send(service);
 });
 
 app.get("*", function (req, res) {

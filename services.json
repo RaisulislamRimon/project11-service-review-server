@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "dental cleanings",
+    "price": 100,
+    "description": "cleaning teeth and gums to prevent cavities and gum disease and bad breath and tooth loss and other dental problems and diseases",
+    "img": "https://images.pexels.com/photos/3881439/pexels-photo-3881439.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "id": 2,
+    "name": "x-rays of teeth",
+    "price": 50,
+    "description": "x-rays of teeth and gums to detect cavities and gum disease and tooth loss and other dental problems and diseases",
+    "img": "https://images.pexels.com/photos/4270368/pexels-photo-4270368.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "id": 3,
+    "name": "fillings",
+    "price": 200,
+    "description": "filling cavities in teeth to prevent tooth loss and other dental problems and diseases",
+    "img": "https://images.pexels.com/photos/3845766/pexels-photo-3845766.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "id": 4,
+    "name": "root canals",
+    "price": 500,
+    "description": "removing infected pulp from inside teeth to prevent tooth loss and other dental problems and diseases",
+    "img": "https://images.pexels.com/photos/3946836/pexels-photo-3946836.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "id": 5,
+    "name": "crowns",
+    "price": 1000,
+    "description": "covering damaged teeth with caps to prevent tooth loss and other dental problems and diseases",
+    "img": "https://images.pexels.com/photos/6627536/pexels-photo-6627536.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "id": 6,
+    "name": "dentures",
+    "price": 2000,
+    "description": "replacing missing teeth with artificial teeth to prevent tooth loss and other dental problems and diseases",
+    "img": "https://images.pexels.com/photos/5622014/pexels-photo-5622014.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  }
+]
