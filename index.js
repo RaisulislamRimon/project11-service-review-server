@@ -65,6 +65,16 @@ async function run() {
       res.json(result);
     });
 
+    // read all reviews for this service
+    app.get("/reviews/:_id", async (req, res) => {
+      const id = req.params._id;
+      const query = { serviceId: id };
+      const cursor = reviewsCollection.find(query);
+      const reviews = await cursor.toArray();
+      res.send(reviews);
+    });
+
+
     // read single review by id
     app.get("/reviews/:id", async (req, res) => {
       const id = req.params.id;
