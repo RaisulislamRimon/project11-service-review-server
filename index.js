@@ -81,27 +81,35 @@ async function run() {
       res.send(review);
     });
 
+    app.get("/get-review/:id", async (req, res) => {
+      let query = {};
+      if (req.params.id) {
+        query = { _id: req.params.id };
+      }
+      const cursor = reviewsCollection.find(query);
+      const review = await cursor.toArray();
+      res.send(review);
+    });
+
     // update service
     app.put("/get-review/:id", async (req, res) => {
+      // const id = req.query.id;
       const id = req.params.id;
+
       const updatedService = req.body;
       const filter = { _id: ObjectId(id) };
-      console.log(updatedService);
-      // const options = { upsert: true };
-      // const updateDoc = {
-      //   $set: {
-      //     title: updatedService.title,
-      //     description: updatedService.description,
-      //     image: updatedService.image,
-      //     price: updatedService.price,
-      //   },
-      // };
-      // const result = await servicesCollection.updateOne(
-      //   filter,
-      //   updateDoc,
-      //   options
-      // );
-      // res.json(result);
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          review: updatedService.review,
+        },
+      };
+      const result = await reviewsCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.json(result);
     });
 
     app.get("*", function (req, res) {
