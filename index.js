@@ -60,7 +60,7 @@ async function run() {
     // read single review by id
     app.get("/reviews/:id", async (req, res) => {
       const id = req.params.id;
-      const query = { serviceId: id };
+      const query = { _id: ObjectId(id) };
       const cursor = reviewsCollection.find(query);
       const review = await cursor.toArray();
       res.send(review);
@@ -81,18 +81,28 @@ async function run() {
       res.send(review);
     });
 
-    // // finding the service name by serviceId
-    // app.get("/my-revie", async (req, res) => {
-    //   let query = {};
-    //   if (req.query.serviceId) {
-    //     query = { _id: req.query.serviceId };
-    //   }
-
-    //   const cursor = servicesCollection.find(query);
-    //   const review = await cursor.toArray();
-
-    //   res.send(review);
-    // });
+    // update service
+    app.put("/get-review/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedService = req.body;
+      const filter = { _id: ObjectId(id) };
+      console.log(updatedService);
+      // const options = { upsert: true };
+      // const updateDoc = {
+      //   $set: {
+      //     title: updatedService.title,
+      //     description: updatedService.description,
+      //     image: updatedService.image,
+      //     price: updatedService.price,
+      //   },
+      // };
+      // const result = await servicesCollection.updateOne(
+      //   filter,
+      //   updateDoc,
+      //   options
+      // );
+      // res.json(result);
+    });
 
     app.get("*", function (req, res) {
       res.status(404).send("service route not found");
@@ -104,28 +114,6 @@ async function run() {
     //   const query = { _id: ObjectId(id) };
     //   const service = await servicesCollection.findOne(query);
     //   res.json(service);
-    // });
-
-    // // update service
-    // app.patch("/services/:id", async (req, res) => {
-    //   const id = req.params.id;
-    //   const updatedService = req.body;
-    //   const filter = { _id: ObjectId(id) };
-    //   const options = { upsert: true };
-    //   const updateDoc = {
-    //     $set: {
-    //       title: updatedService.title,
-    //       description: updatedService.description,
-    //       image: updatedService.image,
-    //       price: updatedService.price,
-    //     },
-    //   };
-    //   const result = await servicesCollection.updateOne(
-    //     filter,
-    //     updateDoc,
-    //     options
-    //   );
-    //   res.json(result);
     // });
 
     // // delete service
