@@ -56,18 +56,22 @@ async function run() {
 
     // create review
     app.post("/add-review", async (req, res) => {
-      console.log(req);
+      console.log(req.body);
       const review = req.body;
       console.log(review);
       const result = await reviewsCollection.insertOne(review);
       res.json(result);
     });
 
-    // read all reviews
-    app.get("/reviews", async (req, res) => {
-      const cursor = reviewsCollection.find({});
-      const reviews = await cursor.toArray();
-      res.send(reviews);
+    // read single review by id
+    app.get("/reviews/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const query = { serviceId: id };
+      const cursor = reviewsCollection.find(query);
+      const review = await cursor.toArray();
+      console.log("getting review", id);
+      res.send(review);
     });
 
     app.get("*", function (req, res) {
