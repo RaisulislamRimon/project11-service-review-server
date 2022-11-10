@@ -30,7 +30,6 @@ async function run() {
 
     // read all services
     app.get("/services", async (req, res) => {
-      console.log("get services");
       const query = {};
       const cursor = servicesCollection.find(query);
       const services = await cursor.toArray();
@@ -40,7 +39,6 @@ async function run() {
     // create service
     app.post("/add-service", async (req, res) => {
       const service = req.body;
-      console.log("adding new service: ", service);
       const result = await servicesCollection.insertOne(service);
       res.json(result);
     });
@@ -49,16 +47,12 @@ async function run() {
       const id = req.params._id;
       const query = { _id: ObjectId(id) };
       const service = await servicesCollection.findOne(query);
-      console.log(service);
-      // const service = services.find((service) => console.log(service.id));
       res.send(service);
     });
 
     // create review
     app.post("/add-review", async (req, res) => {
-      console.log(req.body);
       const review = req.body;
-      console.log(review);
       const result = await reviewsCollection.insertOne(review);
       res.json(result);
     });
@@ -66,13 +60,39 @@ async function run() {
     // read single review by id
     app.get("/reviews/:id", async (req, res) => {
       const id = req.params.id;
-      console.log(id);
       const query = { serviceId: id };
       const cursor = reviewsCollection.find(query);
       const review = await cursor.toArray();
-      console.log("getting review", id);
       res.send(review);
     });
+
+    // read logged in user all reviews by email
+    app.get("/my-reviews", async (req, res) => {
+      let query = {};
+      if (req.query.email) {
+        query = { email: req.query.email };
+      }
+
+      // finding the service name by serviceId
+
+      const cursor = reviewsCollection.find(query);
+      const review = await cursor.toArray();
+
+      res.send(review);
+    });
+
+    // // finding the service name by serviceId
+    // app.get("/my-revie", async (req, res) => {
+    //   let query = {};
+    //   if (req.query.serviceId) {
+    //     query = { _id: req.query.serviceId };
+    //   }
+
+    //   const cursor = servicesCollection.find(query);
+    //   const review = await cursor.toArray();
+
+    //   res.send(review);
+    // });
 
     app.get("*", function (req, res) {
       res.status(404).send("service route not found");
