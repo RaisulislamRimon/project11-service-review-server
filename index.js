@@ -36,6 +36,14 @@ async function run() {
       res.send(services);
     });
 
+    // load 3 services for home page
+    app.get("/services-limit", async (req, res) => {
+      const query = {};
+      const cursor = servicesCollection.find(query).limit(3);
+      const services = await cursor.toArray();
+      res.send(services);
+    });
+
     // create service
     app.post("/add-service", async (req, res) => {
       const service = req.body;
