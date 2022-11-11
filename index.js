@@ -119,7 +119,7 @@ async function run() {
     app.get("/my-reviews", verifyJWT, async (req, res) => {
       // console.log(req.headers.authorization);
       const decoded = req.decoded;
-      console.log(decoded);
+      // console.log(decoded);
       let query = {};
       if (req.query.email) {
         query = { email: req.query.email };
@@ -130,9 +130,7 @@ async function run() {
 
       // finding the service name by serviceId
 
-      const cursor = reviewsCollection
-        .find(query)
-        .aggregate([{ $sort: { date: -1 } }]);
+      const cursor = reviewsCollection.find(query);
       const review = await cursor.toArray();
 
       res.send(review);
