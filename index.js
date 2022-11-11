@@ -28,7 +28,7 @@ const verifyJWT = (req, res, next) => {
   const token = authHeader.split(" ")[1];
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, function (err, decoded) {
     if (err) {
-      return res.status(401).send({ message: "Forbidden access" });
+      return res.status(403).send({ message: "Forbidden access" });
     }
     req.decoded = decoded;
     next();
@@ -116,10 +116,16 @@ async function run() {
     });
 
     // read logged in user all reviews by email
-    app.get("/my-reviews", async (req, res) => {
+    app.get("/my-reviews", verifyJWT, async (req, res) => {
+      // console.log(req.headers.authorization);
+      const decoded = req.decoded;
+      console.log(decoded);
       let query = {};
       if (req.query.email) {
         query = { email: req.query.email };
+      }
+      if (decoded.email !== req.query.email) {
+        res.status(401).send({ message: "unauthorized access" });
       }
 
       // finding the service name by serviceId
