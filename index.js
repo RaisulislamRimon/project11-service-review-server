@@ -37,7 +37,6 @@ const verifyJWT = (req, res, next) => {
 
 async function run() {
   try {
-    await client.connect();
     const database = client.db("service-review");
     const servicesCollection = database.collection("services");
     const reviewsCollection = database.collection("reviews");
@@ -101,19 +100,20 @@ async function run() {
     app.get("/reviews/:_id", async (req, res) => {
       const id = req.params._id;
       const query = { serviceId: id };
-      const cursor = reviewsCollection.find(query);
+      const cursor = reviewsCollection.find(query).sort({ date: -1 });
       const reviews = await cursor.toArray();
       res.send(reviews);
     });
 
     // read single review by id
-    app.get("/reviews/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: ObjectId(id) };
-      const cursor = reviewsCollection.find(query);
-      const review = await cursor.toArray();
-      res.send(review);
-    });
+    // app.get("/reviews/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const query = { _id: ObjectId(id) };
+    //   const cursor = reviewsCollection.find(query)
+
+    //   const review = await cursor.toArray();
+    //   res.send(review);
+    // });
 
     // read logged in user all reviews by email
     app.get("/my-reviews", verifyJWT, async (req, res) => {
@@ -130,7 +130,9 @@ async function run() {
 
       // finding the service name by serviceId
 
-      const cursor = reviewsCollection.find(query);
+      const cursor = reviewsCollection
+        .find(query)
+        .aggregate([{ $sort: { date: -1 } }]);
       const review = await cursor.toArray();
 
       res.send(review);
